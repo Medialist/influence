@@ -1,0 +1,5 @@
+{
+  "fullcontact": {
+    "apiKey": "$(FULLCONTACT_API_KEY)"
+  }
+}
