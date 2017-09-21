@@ -1,7 +1,6 @@
 import React from 'react'
 import { SquareAvatar, CircleAvatar } from '/imports/ui/images/avatar'
 import { findPerson } from '/imports/api/fullcontact/methods'
-import * as icons from '/imports/ui/images/icons'
 
 export const Lookup = ({loading, email, person, onEmailChange, onSubmit}) => {
   return (
@@ -10,6 +9,7 @@ export const Lookup = ({loading, email, person, onEmailChange, onSubmit}) => {
         <div className='flex-none border py2 pr1 border-gray80 bg-white' style={{width: 323}}>
           <form onSubmit={(e) => { e.preventDefault(); onSubmit() }}>
             <input
+              name='fullcontact-email'
               onChange={(e) => onEmailChange(e.currentTarget.value)}
               value={email}
               type='search'
@@ -20,15 +20,22 @@ export const Lookup = ({loading, email, person, onEmailChange, onSubmit}) => {
           </form>
         </div>
         <div className='flex-auto'>
-          {person && (
+          {(person && person.likelihood) ? (
             <div className='pl6 f-lg gray40 monospace'>FullContact likelihood score: <code>{person.likelihood}</code></div>
-          )}
+          ) : null}
         </div>
       </div>
-      {person && <Person {...person} />}
+      {(person && person.status === 200) ? <Person {...person} /> : null }
+      {(person && person.status === 404) ? <PersonNotFound {...person} /> : null }
     </div>
   )
 }
+
+export const PersonNotFound = ({_email}) => (
+  <div style={{padding: 100}}>
+    <div className='f-xxl gray40 center'>Person not found</div>
+  </div>
+)
 
 export const Person = ({organizations = [], contactInfo, photos = [], demographics, socialProfiles}) => (
   <div className='flex py6'>

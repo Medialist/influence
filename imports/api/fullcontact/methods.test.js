@@ -16,7 +16,8 @@ describe('findPerson', function () {
     Meteor.settings = { fullcontact: { apiKey: 'foobar' } }
   })
 
-  it('should require the user to be logged in', function () {
+  // disabled until we have auth...
+  it.skip('should require the user to be logged in', function () {
     assert.throws(() => findPerson.run.call({}, {}), /You must be logged in/)
   })
 
@@ -43,5 +44,25 @@ describe('findPerson', function () {
     const storedPerson = Person.findOne({_email: testEmail})
 
     assert.deepEqual(person, storedPerson, 'Person in db should match person retured from method')
+  })
+
+  it('should handle errors from fullcontact', function () {
+    const apiMock = nock('https://api.fullcontact.com')
+      .get('/v2/person.json')
+      .query(true)
+      .reply(404, {status: 404, message: 'no such'})
+
+    const testEmail = 'olly@medialist.io'
+    const person = findPerson._execute({
+      userId: 'fred',
+      unblock () {}
+    }, {email: testEmail})
+
+    assert.ok(apiMock.isDone())
+    assert.equal(person._email, testEmail)
+    assert.equal(person.status, 404)
+
+    const storedPerson = Person.findOne({_email: testEmail})
+    assert.equal(person.status, storedPerson.status, 'Person in db should match person retured from method')
   })
 })

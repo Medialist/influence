@@ -33,20 +33,35 @@ export const findPerson = new ValidatedMethod({
     }
 
     this.unblock()
-
-    const res = HTTP.call('GET', `https://api.fullcontact.com/v2/person.json?email=${email}`, {
-      headers: {
-        'X-FullContact-APIKey': Meteor.settings.fullcontact.apiKey
+    let res = null
+    try {
+      res = HTTP.call('GET', `https://api.fullcontact.com/v2/person.json?email=${email}`, {
+        headers: {
+          'X-FullContact-APIKey': Meteor.settings.fullcontact.apiKey
+        }
+      })
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const _id = Person.insert({
+          _email: email,
+          _createdAt: new Date(),
+          ...err.response.data
+        })
+        return Person.findOne({_id})
+      } else {
+        throw new Meteor.Error('fullcontact/findPerson/fullcontactError', 'Error from fullcontact', err)
       }
-    })
+    }
 
-    if (res.statusCode === 200 && res.data) {
+    if (res.data) {
       const _id = Person.insert({
         _email: email,
         _createdAt: new Date(),
         ...res.data
       })
       return Person.findOne({_id})
+    } else {
+      throw new Meteor.Error('fullcontact/findPerson/noData', 'No data on response', res)
     }
   }
 })
