@@ -14,7 +14,7 @@ export const findPerson = new ValidatedMethod({
 
   validate (data) {
     Joi.assert(data, Joi.object().keys({
-      email: Joi.string.email().required()
+      email: Joi.string().email().required()
     }).required())
   },
 

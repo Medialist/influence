@@ -12,6 +12,7 @@ import Person from './person'
 describe('findPerson', function () {
   beforeEach(function () {
     resetDatabase()
+    nock.disableNetConnect()
     Meteor.settings = { fullcontact: { apiKey: 'foobar' } }
   })
 
@@ -20,27 +21,27 @@ describe('findPerson', function () {
   })
 
   it('should request a user from fullcontact', function () {
-    const apiMock = nock('api.fullcontact.com')
+    const apiMock = nock('https://api.fullcontact.com')
       .get('/v2/person.json')
       .query(true)
       .reply(200, testPerson)
 
-    const email = 'olly@medialist.io'
-    const person = findPerson.run.call({
+    const testEmail = 'olly@medialist.io'
+    const person = findPerson._execute({
       userId: 'fred',
       unblock () {}
-    }, {email})
+    }, {email: testEmail})
 
-    assert.ok(apiMock.done())
-    assert.equal(person._email, email)
-    assert.equal(
+    assert.ok(apiMock.isDone())
+    assert.equal(person._email, testEmail)
+    assert.deepEqual(
       omit(person, ['_id', '_email', '_createdAt']),
       testPerson,
       'Person retured from method should match the canned response'
     )
 
-    const storedPerson = Person.findOne({_email: email})
+    const storedPerson = Person.findOne({_email: testEmail})
 
-    assert.equal(person, storedPerson, 'Person in db should match person retured from method')
+    assert.deepEqual(person, storedPerson, 'Person in db should match person retured from method')
   })
 })
