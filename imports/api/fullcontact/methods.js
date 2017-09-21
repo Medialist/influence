@@ -19,11 +19,11 @@ export const findPerson = new ValidatedMethod({
   },
 
   run ({email}) {
-    if (!this.userId) {
-      throw new Meteor.Error('fullcontact/findPerson/notLoggedIn', 'You must be logged in')
-    }
+    // if (!this.userId) {
+    //   throw new Meteor.Error('fullcontact/findPerson/notLoggedIn', 'You must be logged in')
+    // }
 
-    if (Meteor.isSimulation) {
+    if (this.isSimulation) {
       return
     }
 

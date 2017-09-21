@@ -1,6 +1,5 @@
 {
   "plugins": [
-    "transform-class-properties",
-    "babel-root-slash-import"
+    "transform-class-properties"
   ]
 }
