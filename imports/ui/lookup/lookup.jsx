@@ -47,9 +47,12 @@ export const Person = ({organizations = [], contactInfo, photos = [], demographi
           ))}
         </div>
         <div className='flex-auto'>
-          <div className='f-xxl gray10'>{contactInfo.fullName}</div>
+          <div className='f-xxl gray10 semibold'>{contactInfo.fullName}</div>
           <div className='f-lg gray40 pt1'>{demographics.locationGeneral}</div>
-          <div className='f-lg gray40'>{demographics.gender} aged {demographics.ageRange}</div>
+          <div className='f-lg gray40'>
+            {demographics.gender}
+            {demographics.ageRange && ` aged ${demographics.ageRange}` }
+          </div>
         </div>
       </div>
       <div >
@@ -83,15 +86,29 @@ export const Person = ({organizations = [], contactInfo, photos = [], demographi
       <div>
         <div className='f-xxl gray40 center pb4'>Socials</div>
         {socialProfiles.map(p => (
-          <div className='pb2' style={{lineHeight: '22px'}} key={p.typeId}>
-            <a className='f-sm gray10' href={p.url} target='_blank'>
-              {p.typeName}<br />
-              <code className='gray40'>{p.username}</code>
-            </a>
-          </div>
+          <SocialTag {...p} key={p.typeId} />
         ))}
       </div>
     </div>
+  </div>
+)
+
+export const SocialTag = ({url, typeName, username}) => (
+  <a href={url}
+    target='_blank'
+    className='inline-block bg-gray10 white pointer rounded mr1 mb1 select-none'
+    style={{height: 28, lineHeight: 1.5}}>
+    <span className='inline-block px2 py1 white semibold f-xxs'>{typeName}</span>
+    {username && <span className='inline-block px2 py1 gray40 semibold f-xxs border-gray20 border-left'>{username}</span>}
+  </a>
+)
+
+export const Social = ({url, typeName, username}) => (
+  <div className='pb2' style={{lineHeight: '22px'}}>
+    <a className='f-sm gray10' href={url} target='_blank'>
+      {typeName}<br />
+      <code className='gray40'>{username}</code>
+    </a>
   </div>
 )
 
