@@ -1,0 +1,33 @@
+pipeline:
+  restore-cache:
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - ./node_modules
+    volumes:
+      - /tmp/cache:/cache
+
+  test:
+    image: node:8.5.0
+    environment:
+      LC_ALL: "POSIX"
+      METEOR_ALLOW_SUPERUSER: "true"
+      ROOT_URL: http://test:3000
+      MONGO_URL: mongodb://mongo/test
+    commands:
+      - curl -sL https://install.meteor.com | sed s/--progress-bar/-sL/g | /bin/sh
+      - meteor npm install --quiet
+      - meteor npm run build --quiet
+      - NODE_ENV=development meteor npm test
+
+  rebuild-cache:
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - ./node_modules
+    volumes:
+      - /tmp/cache:/cache
+
+services:
+  mongo:
+    image: mongo:3.4.7
