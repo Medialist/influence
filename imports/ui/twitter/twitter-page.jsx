@@ -34,34 +34,45 @@ export const NotFound = ({screenName}) => (
   </div>
 )
 
-export const TwitterUser = ({name, screen_name, location, description, entities, followers_count, friends_count, profile_image_url_https, status, statuses_count }) => (
+export const TwitterUser = ({
+  name,
+  location,
+  description,
+  entities,
+  status,
+  screen_name: screenName,
+  followers_count: followers,
+  friends_count: following,
+  profile_image_url_https: image,
+  statuses_count: tweets
+}) => (
   <div className='flex py6'>
     <div className='flex-none' style={{width: 323}}>
       <div className='flex'>
         <div className='flex-none pr3'>
           <CircleAvatar
             showTooltip
-            name={screen_name}
+            name={screenName}
             size={80}
-            avatar={profile_image_url_https.replace('_normal.', '_400x400.')} />
+            avatar={image.replace('_normal.', '_400x400.')} />
         </div>
         <div className='flex-auto'>
           <div className='f-xxl gray10 semibold'>{name} </div>
-          <div className='f-md gray40'>@{screen_name}</div>
+          <div className='f-md gray40'>@{screenName}</div>
         </div>
       </div>
       <div className='pt4 flex'>
         <div className='flex-auto'>
           <div className='semibold f-sm'>Tweets</div>
-          <div className='semibold f-xl'>{statuses_count}</div>
+          <div className='semibold f-xl'>{tweets}</div>
         </div>
         <div className='flex-auto'>
           <div className='semibold f-sm'>Follwing</div>
-          <div className='semibold f-xl'>{friends_count}</div>
+          <div className='semibold f-xl'>{following}</div>
         </div>
         <div className='flex-auto'>
           <div className='semibold f-sm'>Followers</div>
-          <div className='semibold f-xl'>{followers_count}</div>
+          <div className='semibold f-xl'>{followers}</div>
         </div>
       </div>
       <div className='f-lg gray10 py4' style={{lineHeight: '22px'}}>
