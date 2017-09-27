@@ -1,4 +1,4 @@
-# INFLUENCE
+# INFLUENCE ![CI status](https://drone.medialist.io/api/badges/Medialist/influence/status.svg)
 
 > The central store of all influencers
 
