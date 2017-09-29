@@ -3,6 +3,7 @@ import validateSettings from './validate-settings'
 import { JsonRoutes, RestMiddleware } from 'meteor/simple:json-routes'
 import '/imports/api/fullcontact/methods'
 import '/imports/api/twitter/methods'
+import '/imports/api/twitter/publications'
 import '/imports/api/twitter/routes'
 
 // Map Joi errors to Meteor errors for restful routes.

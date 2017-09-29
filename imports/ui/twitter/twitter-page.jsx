@@ -1,8 +1,11 @@
 import { Meteor } from 'meteor/meteor'
 import React from 'react'
+import { withTracker } from 'meteor/react-meteor-data'
+import { TwitterUsers } from '/imports/api/twitter/collections'
 import { CircleAvatar } from '/imports/ui/images/avatar'
 import Linkifier from 'react-linkifier'
 import { Globe, AddressIcon } from '/imports/ui/images/icons'
+import Loading from '/imports/ui/loading'
 
 export const TwitterPage = ({loading, screenName, data, onScreenNameChange, onSubmit}) => {
   return (
@@ -11,7 +14,7 @@ export const TwitterPage = ({loading, screenName, data, onScreenNameChange, onSu
         <div className='flex-none border py2 pr1 border-gray80 bg-white' style={{width: 323}}>
           <form onSubmit={(e) => { e.preventDefault(); onSubmit() }}>
             <input
-              name='fullcontact-email'
+              name='twitter-screen-name'
               onChange={(e) => onScreenNameChange(e.currentTarget.value)}
               value={screenName}
               type='search'
@@ -21,7 +24,14 @@ export const TwitterPage = ({loading, screenName, data, onScreenNameChange, onSu
             />
           </form>
         </div>
+        <div className='flex-auto pl4'>
+          {loading && <Loading />}
+          {!loading && screenName && !data && (
+            <button className='btn bg-blue white' onClick={onSubmit}>Import from twitter</button>
+          )}
+        </div>
       </div>
+
       {(data && data._statusCode === 200) ? <TwitterUser {...data} /> : null }
       {(data && data._statusCode === 404) ? <NotFound screenName={screenName} /> : null }
     </div>
@@ -162,11 +172,22 @@ export const SubHeader = ({text}) => (
   </div>
 )
 
+const MeteorDataContainer = withTracker(({screenName}) => {
+  window.TwitterUsers = TwitterUsers
+  const subs = [
+    Meteor.subscribe('twitterUsers', {name: screenName})
+  ]
+  return {
+    loading: subs.some(s => !s.ready()),
+    data: TwitterUsers.findOne({}, {
+      sort: {screen_name: 1}
+    })
+  }
+})(TwitterPage)
+
 class StateContainer extends React.Component {
   state = {
-    loading: false,
-    screenName: '',
-    data: null
+    screenName: ''
   }
 
   onScreenNameChange = (screenName) => {
@@ -175,17 +196,14 @@ class StateContainer extends React.Component {
 
   onSubmit = () => {
     const {screenName} = this.state
-    this.setState({loading: true})
-    Meteor.call('findTwitterUser', {screenName}, (err, data) => {
+    Meteor.call('fetchTwitterUsers', {screenName}, (err) => {
       if (err) return console.error(err)
-      console.log(data)
-      this.setState({data, loading: false})
     })
   }
 
   render () {
     return (
-      <TwitterPage onScreenNameChange={this.onScreenNameChange} onSubmit={this.onSubmit} {...this.state} />
+      <MeteorDataContainer onScreenNameChange={this.onScreenNameChange} onSubmit={this.onSubmit} {...this.state} />
     )
   }
 }
