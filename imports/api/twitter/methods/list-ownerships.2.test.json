@@ -1,0 +1,93 @@
+{
+    "next_cursor": 0,
+    "next_cursor_str": "0",
+    "previous_cursor": -5803703,
+    "previous_cursor_str": "-5803703",
+    "lists": [
+        {
+            "id": 5803703,
+            "id_str": "5803703",
+            "name": "Environment staff",
+            "uri": "/guardian/lists/environment-staff",
+            "subscriber_count": 180,
+            "member_count": 9,
+            "mode": "public",
+            "description": "Latest news and links from the Guardian's environment staff",
+            "slug": "environment-staff",
+            "full_name": "@guardian/environment-staff",
+            "created_at": "Wed Jan 13 18:24:45 +0000 2010",
+            "following": false,
+            "user": {
+                "id": 87818409,
+                "id_str": "87818409",
+                "name": "The Guardian",
+                "screen_name": "guardian",
+                "location": "London",
+                "description": "The need for independent journalism has never been greater. Become a Guardian supporter: https://t.co/EWg9aqA7PQ",
+                "url": "https://t.co/c53pnmnuIT",
+                "entities": {
+                    "url": {
+                        "urls": [
+                            {
+                                "url": "https://t.co/c53pnmnuIT",
+                                "expanded_url": "https://www.theguardian.com",
+                                "display_url": "theguardian.com",
+                                "indices": [
+                                    0,
+                                    23
+                                ]
+                            }
+                        ]
+                    },
+                    "description": {
+                        "urls": [
+                            {
+                                "url": "https://t.co/EWg9aqA7PQ",
+                                "expanded_url": "http://gu.com/supporter/twitter",
+                                "display_url": "gu.com/supporter/twit…",
+                                "indices": [
+                                    89,
+                                    112
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "protected": false,
+                "followers_count": 6799710,
+                "friends_count": 1113,
+                "listed_count": 54362,
+                "created_at": "Thu Nov 05 23:49:19 +0000 2009",
+                "favourites_count": 152,
+                "utc_offset": 3600,
+                "time_zone": "London",
+                "geo_enabled": false,
+                "verified": true,
+                "statuses_count": 379645,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": true,
+                "profile_background_color": "FFFFFF",
+                "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/704160749/ff996aa3bc2009a2f9b97cdd43e8b5b7.png",
+                "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/704160749/ff996aa3bc2009a2f9b97cdd43e8b5b7.png",
+                "profile_background_tile": false,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/877153924637175809/deHwf3Qu_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/877153924637175809/deHwf3Qu_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/87818409/1491899430",
+                "profile_link_color": "005789",
+                "profile_sidebar_border_color": "FFFFFF",
+                "profile_sidebar_fill_color": "CAE3F3",
+                "profile_text_color": "333333",
+                "profile_use_background_image": false,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false,
+                "translator_type": "regular"
+            }
+        }
+    ]
+}

@@ -6,11 +6,11 @@ import assert from 'assert'
 import nock from 'nock'
 import omit from 'lodash.omit'
 import testUser from './user.test.json'
-import { TwitterUsers } from './collections'
+import { TwitterUsers } from '../collections'
 
-let findTwitterUser = null
+describe('fetchTwitterUser', function () {
+  let fetchTwitterUsers = null
 
-describe('findTwitterUser', function () {
   beforeEach(function () {
     resetDatabase()
 
@@ -26,12 +26,12 @@ describe('findTwitterUser', function () {
     }
 
     // Meteor settings need to be set first.
-    findTwitterUser = require('./methods').findTwitterUser
+    fetchTwitterUsers = require('./fetch-twitter-users').fetchTwitterUsers
   })
 
   // disabled until we have auth...
   it.skip('should require the user to be logged in', function () {
-    assert.throws(() => findTwitterUser.run.call({}, {}), /You must be logged in/)
+    assert.throws(() => fetchTwitterUsers.run.call({}, {}), /You must be logged in/)
   })
 
   it('should request a user from twitter api', function () {
@@ -40,9 +40,9 @@ describe('findTwitterUser', function () {
       .query(true)
       .reply(200, testUser)
 
-    const testScreenName = 'Olly_Gilbert'
+    const testScreenName = 'guardian'
 
-    const res = findTwitterUser._execute({
+    fetchTwitterUsers._execute({
       userId: 'fred',
       unblock () {}
     }, {
@@ -50,16 +50,16 @@ describe('findTwitterUser', function () {
     })
 
     assert.ok(apiMock.isDone())
-    assert.equal(res.screen_name, testScreenName)
-    assert.deepEqual(
-      omit(res, ['_id', '_createdAt', '_statusCode']),
-      testUser[0],
-      'Person retured from method should match the canned response'
-    )
 
     const stored = TwitterUsers.findOne({screen_name: testScreenName})
-
-    assert.deepEqual(res, stored, 'Person in db should match person retured from method')
+    assert.deepEqual(
+      omit(stored, ['_id', '_createdAt']),
+      {
+        _statusCode: 200,
+        ...testUser[0]
+      },
+      'Person in db should match person retured from method'
+    )
   })
 
   it('should handle errors from twitter api', function () {
@@ -74,7 +74,8 @@ describe('findTwitterUser', function () {
       })
 
     const testScreenName = 'nosuchuserzzz'
-    const res = findTwitterUser._execute({
+
+    fetchTwitterUsers._execute({
       userId: 'fred',
       unblock () {}
     }, {
@@ -82,10 +83,16 @@ describe('findTwitterUser', function () {
     })
 
     assert.ok(apiMock.isDone())
-    assert.equal(res._statusCode, 404)
 
     const stored = TwitterUsers.findOne({screen_name: testScreenName})
 
-    assert.deepEqual(res, stored, 'Person in db should match person retured from method')
+    assert.deepEqual(
+      omit(stored, ['_id', '_createdAt']),
+      {
+        _statusCode: 404,
+        screen_name: testScreenName
+      },
+      'Person in db should show that no user exists for that screen name'
+    )
   })
 })

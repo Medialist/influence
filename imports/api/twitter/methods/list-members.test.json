@@ -1,0 +1,553 @@
+{
+    "users": [
+        {
+            "id": 137792126,
+            "id_str": "137792126",
+            "name": "Gemma Bowes",
+            "screen_name": "GemmaTravel",
+            "location": "London, UK",
+            "description": "Editor, writer, project manager specialising in travel. Ex Guardian Travel Editor. Insta: gemmabowestravel. Email: GemmaAEBowes@gmail.com",
+            "url": "https://t.co/0wSfCstYnS",
+            "entities": {
+                "url": {
+                    "urls": [
+                        {
+                            "url": "https://t.co/0wSfCstYnS",
+                            "expanded_url": "http://guardian.com/travel",
+                            "display_url": "guardian.com/travel",
+                            "indices": [
+                                0,
+                                23
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "urls": []
+                }
+            },
+            "protected": false,
+            "followers_count": 12052,
+            "friends_count": 624,
+            "listed_count": 359,
+            "created_at": "Tue Apr 27 19:44:50 +0000 2010",
+            "favourites_count": 5,
+            "utc_offset": null,
+            "time_zone": null,
+            "geo_enabled": true,
+            "verified": true,
+            "statuses_count": 655,
+            "lang": "en",
+            "status": {
+                "created_at": "Wed Sep 27 13:40:00 +0000 2017",
+                "id": 913035497886318592,
+                "id_str": "913035497886318592",
+                "text": "@MimDarling Hello Miriam! Do you have a new email address? Tom Robbins at FT gave me one, want to ask you to give a… https://t.co/v4VMbnYOOB",
+                "truncated": true,
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "user_mentions": [
+                        {
+                            "screen_name": "MimDarling",
+                            "name": "Dr Miriam Darlington",
+                            "id": 947338880,
+                            "id_str": "947338880",
+                            "indices": [
+                                0,
+                                11
+                            ]
+                        }
+                    ],
+                    "urls": [
+                        {
+                            "url": "https://t.co/v4VMbnYOOB",
+                            "expanded_url": "https://twitter.com/i/web/status/913035497886318592",
+                            "display_url": "twitter.com/i/web/status/9…",
+                            "indices": [
+                                117,
+                                140
+                            ]
+                        }
+                    ]
+                },
+                "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": 947338880,
+                "in_reply_to_user_id_str": "947338880",
+                "in_reply_to_screen_name": "MimDarling",
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 0,
+                "favorite_count": 0,
+                "favorited": false,
+                "retweeted": false,
+                "lang": "en"
+            },
+            "contributors_enabled": false,
+            "is_translator": false,
+            "is_translation_enabled": false,
+            "profile_background_color": "C0DEED",
+            "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+            "profile_background_tile": false,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/892867832085528577/k6MtIZj0_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/892867832085528577/k6MtIZj0_normal.jpg",
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/137792126/1501711721",
+            "profile_link_color": "1DA1F2",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "has_extended_profile": false,
+            "default_profile": true,
+            "default_profile_image": false,
+            "following": false,
+            "follow_request_sent": false,
+            "notifications": false,
+            "translator_type": "none"
+        },
+        {
+            "id": 84036250,
+            "id_str": "84036250",
+            "name": "Been there",
+            "screen_name": "beentheresite",
+            "location": "All around the world",
+            "description": "Guardian newspaper's readers' travel site. Top tips, great pics, fab travel advice.",
+            "url": "http://t.co/1Z0g1oe8ay",
+            "entities": {
+                "url": {
+                    "urls": [
+                        {
+                            "url": "http://t.co/1Z0g1oe8ay",
+                            "expanded_url": "http://www.ivebeenthere.co.uk",
+                            "display_url": "ivebeenthere.co.uk",
+                            "indices": [
+                                0,
+                                22
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "urls": []
+                }
+            },
+            "protected": false,
+            "followers_count": 467,
+            "friends_count": 25,
+            "listed_count": 33,
+            "created_at": "Wed Oct 21 08:52:58 +0000 2009",
+            "favourites_count": 0,
+            "utc_offset": null,
+            "time_zone": null,
+            "geo_enabled": false,
+            "verified": false,
+            "statuses_count": 136,
+            "lang": "en",
+            "status": {
+                "created_at": "Tue Sep 28 11:34:12 +0000 2010",
+                "id": 25776023501,
+                "id_str": "25776023501",
+                "text": "so if you like what we tweet head in that direciton! Adios!",
+                "truncated": false,
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "user_mentions": [],
+                    "urls": []
+                },
+                "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 0,
+                "favorite_count": 3,
+                "favorited": false,
+                "retweeted": false,
+                "lang": "en"
+            },
+            "contributors_enabled": false,
+            "is_translator": false,
+            "is_translation_enabled": false,
+            "profile_background_color": "C0DEED",
+            "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/46941746/ziontwitter.jpg",
+            "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/46941746/ziontwitter.jpg",
+            "profile_background_tile": true,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/482709518/BeenThere_logotwitter_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/482709518/BeenThere_logotwitter_normal.jpg",
+            "profile_link_color": "0084B4",
+            "profile_sidebar_border_color": "C0DEED",
+            "profile_sidebar_fill_color": "DDEEF6",
+            "profile_text_color": "333333",
+            "profile_use_background_image": true,
+            "has_extended_profile": false,
+            "default_profile": false,
+            "default_profile_image": false,
+            "following": false,
+            "follow_request_sent": false,
+            "notifications": false,
+            "translator_type": "none"
+        },
+        {
+            "id": 39808574,
+            "id_str": "39808574",
+            "name": "Dea Birkett",
+            "screen_name": "travelwithtwins",
+            "location": "London and Mayo",
+            "description": "Writer @deabirkett wandering with her twins (and others). Last trip #Florida. Next trip #Brisbane. You can have adventures anywhere.",
+            "url": "https://t.co/2Bi71iqf4F",
+            "entities": {
+                "url": {
+                    "urls": [
+                        {
+                            "url": "https://t.co/2Bi71iqf4F",
+                            "expanded_url": "http://www.deabirkett.com",
+                            "display_url": "deabirkett.com",
+                            "indices": [
+                                0,
+                                23
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "urls": []
+                }
+            },
+            "protected": false,
+            "followers_count": 2041,
+            "friends_count": 1589,
+            "listed_count": 112,
+            "created_at": "Wed May 13 18:16:32 +0000 2009",
+            "favourites_count": 10,
+            "utc_offset": 3600,
+            "time_zone": "London",
+            "geo_enabled": false,
+            "verified": false,
+            "statuses_count": 1187,
+            "lang": "en",
+            "status": {
+                "created_at": "Tue Sep 12 18:04:01 +0000 2017",
+                "id": 907666120810909696,
+                "id_str": "907666120810909696",
+                "text": "Oh what tenderness in this glorious painting The First Born in @ferenshull @2017Hull https://t.co/5uTtDxwPX4",
+                "truncated": false,
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "user_mentions": [
+                        {
+                            "screen_name": "2017Hull",
+                            "name": "Hull City of Culture",
+                            "id": 1428423776,
+                            "id_str": "1428423776",
+                            "indices": [
+                                75,
+                                84
+                            ]
+                        }
+                    ],
+                    "urls": [],
+                    "media": [
+                        {
+                            "id": 907666067622907904,
+                            "id_str": "907666067622907904",
+                            "indices": [
+                                85,
+                                108
+                            ],
+                            "media_url": "http://pbs.twimg.com/media/DJiter9W0AAl3eE.jpg",
+                            "media_url_https": "https://pbs.twimg.com/media/DJiter9W0AAl3eE.jpg",
+                            "url": "https://t.co/5uTtDxwPX4",
+                            "display_url": "pic.twitter.com/5uTtDxwPX4",
+                            "expanded_url": "https://twitter.com/travelwithtwins/status/907666120810909696/photo/1",
+                            "type": "photo",
+                            "sizes": {
+                                "medium": {
+                                    "w": 1200,
+                                    "h": 900,
+                                    "resize": "fit"
+                                },
+                                "small": {
+                                    "w": 680,
+                                    "h": 510,
+                                    "resize": "fit"
+                                },
+                                "thumb": {
+                                    "w": 150,
+                                    "h": 150,
+                                    "resize": "crop"
+                                },
+                                "large": {
+                                    "w": 2048,
+                                    "h": 1536,
+                                    "resize": "fit"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "extended_entities": {
+                    "media": [
+                        {
+                            "id": 907666067622907904,
+                            "id_str": "907666067622907904",
+                            "indices": [
+                                85,
+                                108
+                            ],
+                            "media_url": "http://pbs.twimg.com/media/DJiter9W0AAl3eE.jpg",
+                            "media_url_https": "https://pbs.twimg.com/media/DJiter9W0AAl3eE.jpg",
+                            "url": "https://t.co/5uTtDxwPX4",
+                            "display_url": "pic.twitter.com/5uTtDxwPX4",
+                            "expanded_url": "https://twitter.com/travelwithtwins/status/907666120810909696/photo/1",
+                            "type": "photo",
+                            "sizes": {
+                                "medium": {
+                                    "w": 1200,
+                                    "h": 900,
+                                    "resize": "fit"
+                                },
+                                "small": {
+                                    "w": 680,
+                                    "h": 510,
+                                    "resize": "fit"
+                                },
+                                "thumb": {
+                                    "w": 150,
+                                    "h": 150,
+                                    "resize": "crop"
+                                },
+                                "large": {
+                                    "w": 2048,
+                                    "h": 1536,
+                                    "resize": "fit"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "geo": null,
+                "coordinates": null,
+                "place": null,
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 0,
+                "favorite_count": 1,
+                "favorited": false,
+                "retweeted": false,
+                "possibly_sensitive": false,
+                "lang": "en"
+            },
+            "contributors_enabled": false,
+            "is_translator": false,
+            "is_translation_enabled": false,
+            "profile_background_color": "642D8B",
+            "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/19337410/savrivbeach.jpg",
+            "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/19337410/savrivbeach.jpg",
+            "profile_background_tile": true,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/777271391414525952/pS7UYKEf_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/777271391414525952/pS7UYKEf_normal.jpg",
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/39808574/1451837016",
+            "profile_link_color": "FF0000",
+            "profile_sidebar_border_color": "65B0DA",
+            "profile_sidebar_fill_color": "7AC3EE",
+            "profile_text_color": "3D1957",
+            "profile_use_background_image": true,
+            "has_extended_profile": false,
+            "default_profile": false,
+            "default_profile_image": false,
+            "following": false,
+            "follow_request_sent": false,
+            "notifications": false,
+            "translator_type": "none"
+        },
+        {
+            "id": 20477566,
+            "id_str": "20477566",
+            "name": "Greentraveller",
+            "screen_name": "greentraveller",
+            "location": "Bath, United Kingdom",
+            "description": "Video production (storytelling, aerial, interactive). e-guides, print, mobile promos. Shining a light on sustainable tourism worldwide https://t.co/DFnfgebBwr",
+            "url": "https://t.co/AOwJuPIy5N",
+            "entities": {
+                "url": {
+                    "urls": [
+                        {
+                            "url": "https://t.co/AOwJuPIy5N",
+                            "expanded_url": "http://www.greentraveller.com",
+                            "display_url": "greentraveller.com",
+                            "indices": [
+                                0,
+                                23
+                            ]
+                        }
+                    ]
+                },
+                "description": {
+                    "urls": [
+                        {
+                            "url": "https://t.co/DFnfgebBwr",
+                            "expanded_url": "http://bit.ly/GT_Showreel",
+                            "display_url": "bit.ly/GT_Showreel",
+                            "indices": [
+                                135,
+                                158
+                            ]
+                        }
+                    ]
+                }
+            },
+            "protected": false,
+            "followers_count": 17341,
+            "friends_count": 3239,
+            "listed_count": 746,
+            "created_at": "Mon Feb 09 23:27:36 +0000 2009",
+            "favourites_count": 3173,
+            "utc_offset": 3600,
+            "time_zone": "London",
+            "geo_enabled": true,
+            "verified": false,
+            "statuses_count": 10971,
+            "lang": "en",
+            "status": {
+                "created_at": "Thu Sep 28 08:29:42 +0000 2017",
+                "id": 913319795835248640,
+                "id_str": "913319795835248640",
+                "text": "Transforming Our World: Video we made with help from @desertdelta for @WTTC Tourism for Tomorrow on Botswana Touris… https://t.co/nbesfCRca3",
+                "truncated": true,
+                "entities": {
+                    "hashtags": [],
+                    "symbols": [],
+                    "user_mentions": [
+                        {
+                            "screen_name": "desertdelta",
+                            "name": "Desert&Delta Safaris",
+                            "id": 102368966,
+                            "id_str": "102368966",
+                            "indices": [
+                                53,
+                                65
+                            ]
+                        },
+                        {
+                            "screen_name": "WTTC",
+                            "name": "WTTC",
+                            "id": 150644454,
+                            "id_str": "150644454",
+                            "indices": [
+                                70,
+                                75
+                            ]
+                        }
+                    ],
+                    "urls": [
+                        {
+                            "url": "https://t.co/nbesfCRca3",
+                            "expanded_url": "https://twitter.com/i/web/status/913319795835248640",
+                            "display_url": "twitter.com/i/web/status/9…",
+                            "indices": [
+                                117,
+                                140
+                            ]
+                        }
+                    ]
+                },
+                "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                "in_reply_to_status_id": null,
+                "in_reply_to_status_id_str": null,
+                "in_reply_to_user_id": null,
+                "in_reply_to_user_id_str": null,
+                "in_reply_to_screen_name": null,
+                "geo": null,
+                "coordinates": null,
+                "place": {
+                    "id": "1db4f0a70fc5c9db",
+                    "url": "https://api.twitter.com/1.1/geo/id/1db4f0a70fc5c9db.json",
+                    "place_type": "city",
+                    "name": "Bath",
+                    "full_name": "Bath, England",
+                    "country_code": "GB",
+                    "country": "United Kingdom",
+                    "contained_within": [],
+                    "bounding_box": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                    -2.4113744,
+                                    51.350545
+                                ],
+                                [
+                                    -2.322492,
+                                    51.350545
+                                ],
+                                [
+                                    -2.322492,
+                                    51.408754
+                                ],
+                                [
+                                    -2.4113744,
+                                    51.408754
+                                ]
+                            ]
+                        ]
+                    },
+                    "attributes": {}
+                },
+                "contributors": null,
+                "is_quote_status": false,
+                "retweet_count": 1,
+                "favorite_count": 2,
+                "favorited": false,
+                "retweeted": false,
+                "possibly_sensitive": false,
+                "lang": "en"
+            },
+            "contributors_enabled": false,
+            "is_translator": false,
+            "is_translation_enabled": false,
+            "profile_background_color": "E8EBE8",
+            "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/262339614/for_twitter_v3.001.jpg",
+            "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/262339614/for_twitter_v3.001.jpg",
+            "profile_background_tile": true,
+            "profile_image_url": "http://pbs.twimg.com/profile_images/711876932019875840/NZRoHQut_normal.jpg",
+            "profile_image_url_https": "https://pbs.twimg.com/profile_images/711876932019875840/NZRoHQut_normal.jpg",
+            "profile_banner_url": "https://pbs.twimg.com/profile_banners/20477566/1505898445",
+            "profile_link_color": "4A913C",
+            "profile_sidebar_border_color": "FFFFFF",
+            "profile_sidebar_fill_color": "E3E2DE",
+            "profile_text_color": "634047",
+            "profile_use_background_image": true,
+            "has_extended_profile": false,
+            "default_profile": false,
+            "default_profile_image": false,
+            "following": false,
+            "follow_request_sent": false,
+            "notifications": false,
+            "translator_type": "none"
+        }
+    ],
+    "next_cursor": 0,
+    "next_cursor_str": "0",
+    "previous_cursor": 0,
+    "previous_cursor_str": "0"
+}
