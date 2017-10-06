@@ -21,13 +21,14 @@ export const handleSocialsLookup = (socials, callbackUrl) => {
   const found = findSocials(socials)
 
   // console.log('socials', JSON.stringify(found, null, 2))
-
-  // send cached results
-  HTTP.post(callbackUrl, {
-    data: {
-      socials: found
-    }
-  })
+  if (found.length > 0) {
+    // send cached results
+    HTTP.post(callbackUrl, {
+      data: {
+        socials: found
+      }
+    })
+  }
 
   // pick out unknowns.
   const {screenNames, twitterIds} = findMissingSocials(socials, found)
@@ -198,6 +199,7 @@ export const processUserLookupQueue = () => {
   }
 }
 
+// Helper to look up enriched social profiles from basic ones
 export const findSocials = (socials) => {
   const normalisedScreenNames = socials.filter(s => !s.twitterId).map(s => s.value.toLowerCase())
   const twitterIds = socials.filter(s => !!s.twitterId).map(s => s.twitterId)
@@ -215,6 +217,7 @@ export const findSocials = (socials) => {
   }).map(toSocial)
 }
 
+// Helper to figure out which social profiles were found.
 export const findMissingSocials = (wanted, found) => {
   const normalisedScreenNames = wanted.filter(s => !s.twitterId).map(s => s.value.toLowerCase())
   const twitterIds = wanted.filter(s => !!s.twitterId).map(s => s.twitterId)
