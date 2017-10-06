@@ -14,7 +14,7 @@ export const fetchTwitterUsers = new ValidatedMethod({
 
   validate (data) {
     Joi.assert(data, Joi.object().keys({
-      screenName: Joi.string().required()
+      screenNames: Joi.array().items(Joi.string().required())
     }).required())
   },
 

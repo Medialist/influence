@@ -31,6 +31,5 @@ JsonRoutes.add('get', '/twitter/:screenName/profile_image', function (req, res, 
     headers.Location = biggerUrl
   }
 
-  console.log('GET!', screenName, code, headers)
   JsonRoutes.sendResult(res, {code, headers})
 })
