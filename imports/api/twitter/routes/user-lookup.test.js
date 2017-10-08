@@ -9,7 +9,7 @@ import { TwitterUsers, TwitterApiQueue } from '../collections'
 
 import testUsers from './user.test.json'
 
-describe.only('handleSocialsLookup', function () {
+describe('handleSocialsLookup', function () {
   let handleSocialsLookup = null
 
   beforeEach(function () {
@@ -109,20 +109,76 @@ describe.only('processUserLookupQueue', function () {
     processUserLookupQueue = require('./user-lookup').processUserLookupQueue
   })
 
-  it('should pull up to 100 jobs from the queue and look them up on twitter and post the enriched socials to the callbackUrls', function () {
+  it('should pull up to 100 jobs from the queue, look them up on twitter and post the enriched socials to the callbackUrls', function () {
     const howManyDeployments = 10
+    const howManyTwitterUsers = 150
+    const maxTwitterLookups = 100
 
-    const jobs = (new Array(150)).fill(0).forEach((_, i) => {
+    // squirt 150 jobs into the queue
+    const jobs = Array(howManyTwitterUsers).fill(0).map((_, i) => {
       const subdomain = i % howManyDeployments
-      const callbackUrl = `https://${subdomain}.medialist.io/foo/bar`
+      const callbackUrl = `https://test${subdomain}.medialist.io/foo/bar`
       return {
+        createdAt: new Date(2017, 10, 3, 12, 0, i),
         status: 'queued',
         endpoint: 'users/lookup',
         callbackUrl: callbackUrl,
-        screenName: 'guardian'
+        screenName: `example${i}`
       }
     })
 
-    // TODO
+    jobs.map(job => ({
+      _id: TwitterApiQueue.insert(job),
+      ...job
+    }))
+
+    const testUser = testUsers[0]
+    const twitterUsers = Array(howManyTwitterUsers).fill(0).map((_, i) => ({
+      ...testUser,
+      id_str: `id${i}`,
+      screen_name: `example${i}`,
+      name: `Example ${i}`
+    }))
+
+    // expect twitter api to be called with 100 screen_names
+    const twitterApiMock = nock('https://api.twitter.com')
+      .post('/1.1/users/lookup.json', {
+        screen_name: Array(maxTwitterLookups).fill(0).map((_, i) => `example${i}`).join(','),
+        user_id: ''
+      })
+      .reply(200, twitterUsers.slice(0, maxTwitterLookups))
+
+    // expect each deploymnet to get 10 socials cos of maths. (maxtwitters / num deps)
+    const expected = Array(howManyDeployments).fill(0).map((_, i) => ({
+      callbackDomain: `https://test${i}.medialist.io`,
+      socials: Array(10).fill(0).map((_, j) => ({
+        label: 'Twitter',
+        //    deployment 0 gets: 0 10 20 30
+        //    deployment 1 gets: 1 11 21 31
+        value: `example${i + (j * 10)}`,
+        twitterId: `id${i + (j * 10)}`,
+        name: `Example ${i + (j * 10)}`,
+        profile_image_url_https: 'https://pbs.twimg.com/profile_images/877153924637175809/deHwf3Qu_normal.jpg',
+        location: 'London',
+        description: 'The need for independent journalism has never been greater. Become a Guardian supporter: http://gu.com/supporter/twitter',
+        url: 'https://www.theguardian.com'
+      }))
+    }))
+
+    const deploymentMocks = expected.map(({callbackDomain, socials}) =>
+      nock(callbackDomain)
+        .post('/foo/bar', {socials})
+        .reply(200)
+    )
+
+    processUserLookupQueue()
+
+    assert.ok(twitterApiMock.isDone(), 'We called Twitter')
+
+    deploymentMocks.forEach((mock, i) =>
+      assert.ok(mock.isDone(), `We posted back to deployment ${i}`)
+    )
+
+    assert.equal(TwitterApiQueue.find({}).count(), 50, 'We removed completed jobs from the queue')
   })
 })

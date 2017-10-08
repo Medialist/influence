@@ -120,16 +120,27 @@ export const processUserLookupQueue = () => {
     multi: true
   })
 
-  const payload = {
-    screen_name: jobs.filter(j => !!j.screenName).map(j => j.twitterId).join(','),
-    user_id: jobs.filter(j => !!j.twitterId).map(j => j.twitterId).join(',')
-  }
+  const payload = jobs.reduce((payload, job) => {
+    // prefer userId
+    if (job.twitterId) {
+      payload.twitterIds.push(job.twitterId)
+    } else {
+      payload.screenNames.push(job.screenName)
+    }
+    return payload
+  }, {
+    screenNames: [],
+    twitterIds: []
+  })
 
   let res = null
 
   try {
     // 'users/lookup' lookup always returns an array.
-    res = TwitterApi.post('users/lookup', payload)
+    res = TwitterApi.post('users/lookup', {
+      screen_name: payload.screenNames.join(','),
+      user_id: payload.twitterIds.join(',')
+    })
   } catch (err) {
     console.error('twitter/users/lookup/apiError', 'Error from twitter', err.error)
   }
@@ -153,10 +164,12 @@ export const processUserLookupQueue = () => {
 
     // Group jobs by callbackUrl
     // { 'https://bm.medialist.io': [{twitterId: 'xyz'}, {screenName: 'Bob'}] }
-    const jobMap = jobs.reduce((callbackMap, job) => {
-      const jobList = callbackMap[job.callbackUrl] || []
-      callbackMap[job.callbackUrl] = jobList.push(job)
-      return callbackMap
+    const jobMap = jobs.reduce((jobMap, job) => {
+      if (!jobMap[job.callbackUrl]) {
+        jobMap[job.callbackUrl] = []
+      }
+      jobMap[job.callbackUrl].push(job)
+      return jobMap
     }, {})
 
     // [{
