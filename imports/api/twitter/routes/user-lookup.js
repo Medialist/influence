@@ -20,15 +20,7 @@ import * as TwitterApi from '../client'
 export const handleSocialsLookup = (socials, callbackUrl) => {
   const found = findSocials(socials)
 
-  // console.log('socials', JSON.stringify(found, null, 2))
-  if (found.length > 0) {
-    // send cached results
-    HTTP.post(callbackUrl, {
-      data: {
-        socials: found
-      }
-    })
-  }
+  sendSocials({callbackUrl, socials: found})
 
   // pick out unknowns.
   const {screenNames, twitterIds} = findMissingSocials(socials, found)
@@ -64,6 +56,20 @@ export const handleSocialsLookup = (socials, callbackUrl) => {
   Meteor.wrapAsync(bulkOp.execute, bulkOp)()
 }
 
+export const sendSocials = ({callbackUrl, socials}) => {
+  if (socials.length < 1) return true
+  try {
+    HTTP.post(callbackUrl, {
+      data: { socials }
+    })
+  } catch (err) {
+    // TODO: outbound payloads should be queued and retryed if the recipient fails to respond.
+    console.log(`Failed to post socials to ${callbackUrl}`)
+    return false
+  }
+  return true
+}
+
 const BodySchema = Joi.object().keys({
   callbackUrl: Joi.string().uri({
     scheme: [
@@ -92,7 +98,26 @@ JsonRoutes.add('post', '/webhook/socials/lookup', function (req, res, next) {
   handleSocialsLookup(socials, callbackUrl)
 })
 
-export const processUserLookupQueue = () => {
+export const updateJobsStatus = (status, jobs) => {
+  if (jobs.length === 0) return // nothing to do
+
+  TwitterApiQueue.update({
+    _id: {
+      $in: jobs.map(j => j._id)
+    }
+  }, {
+    $set: {
+      status: status
+    }
+  }, {
+    multi: true
+  })
+}
+
+/*
+ * Find up to 100 jobs and set their status to `processing`
+ */
+export const grabUserLookupJobs = () => {
   const jobs = TwitterApiQueue.find({
     status: 'queued',
     endpoint: 'users/lookup'
@@ -103,23 +128,15 @@ export const processUserLookupQueue = () => {
     limit: 100
   }).fetch()
 
-  if (jobs.length === 0) {
-    // Nothing to do.
-    return
-  }
+  updateJobsStatus('processing', jobs)
 
-  TwitterApiQueue.update({
-    _id: {
-      $in: jobs.map(j => j._id)
-    }
-  }, {
-    $set: {
-      status: 'processing'
-    }
-  }, {
-    multi: true
-  })
+  return jobs
+}
 
+/*
+ * Convert a batch of jobs into a single users/lookup request on twitterApi
+ */
+export const fetchUsersFromTwitter = (jobs) => {
   const payload = jobs.reduce((payload, job) => {
     // prefer userId
     if (job.twitterId) {
@@ -141,75 +158,95 @@ export const processUserLookupQueue = () => {
       screen_name: payload.screenNames.join(','),
       user_id: payload.twitterIds.join(',')
     })
+
+    if (!res || !res.data || !Array.isArray(res.data)) {
+      throw new Error('twitter/users/lookup/noData', 'Response from Twitter has no data', res)
+    }
   } catch (err) {
     console.error('twitter/users/lookup/apiError', 'Error from twitter', err.error)
+    // Toss the jobs back to in the queue
+    updateJobsStatus('queued', jobs)
+    return []
   }
 
-  if (!res || !res.data || !Array.isArray(res.data)) {
-    console.error('twitter/users/lookup/noData', 'Response from Twitter has no data', res)
-  } else {
-    // Update or insert all the new things.
-    res.data.forEach((user) => {
-      TwitterUsers.update({
-        id_str: user.id_str
-      }, {
-        _createdAt: new Date(),
-        _statusCode: 200,
-        _normalisedScreenName: user.screen_name.toLowerCase(),
-        ...user
-      }, {
-        upsert: true
-      })
-    })
+  return res.data
+}
 
-    // Group jobs by callbackUrl
-    // { 'https://bm.medialist.io': [{twitterId: 'xyz'}, {screenName: 'Bob'}] }
-    const jobMap = jobs.reduce((jobMap, job) => {
-      if (!jobMap[job.callbackUrl]) {
-        jobMap[job.callbackUrl] = []
-      }
-      jobMap[job.callbackUrl].push(job)
-      return jobMap
-    }, {})
-
-    // [{
-    //   callbackUrl: 'https://bm.medialist.io',
-    //   socials: [{
-    //     label: 'Twitter',
-    //     value: 'guardian'
-    //   }]
-    // }]
-    const callbackList = Object.keys(jobMap).map(callbackUrl => {
-      const jobs = jobMap[callbackUrl]
-      return {
-        callbackUrl,
-        socials: jobs.map(({twitterId, screenName}) => ({
-          label: 'Twitter',
-          value: screenName,
-          twitterId
-        }))
-      }
+export const updateTwitterUsersCache = (users) => {
+  // Update or insert all the new things.
+  users.forEach((user) => {
+    TwitterUsers.update({
+      id_str: user.id_str
+    }, {
+      _createdAt: new Date(),
+      _statusCode: 200,
+      _normalisedScreenName: user.screen_name.toLowerCase(),
+      ...user
+    }, {
+      upsert: true
     })
+  })
+}
 
-    // enrich with the new social info and send
-    callbackList.forEach(obj => {
-      const found = findSocials(obj.socials)
-      // TODO: outbound payloads should be queued and retryed if the recipient fails to respond.
-      HTTP.post(obj.callbackUrl, {
-        data: {
-          socials: found
-        }
-      })
-      // TODO: Should we send explict not found messages?
-    })
+export const createCallbackList = (jobs) => {
+  // Group jobs by callbackUrl
+  // { 'https://bm.medialist.io': [{twitterId: 'xyz'}, {screenName: 'Bob'}] }
+  const jobMap = jobs.reduce((jobMap, job) => {
+    if (!jobMap[job.callbackUrl]) {
+      jobMap[job.callbackUrl] = []
+    }
+    jobMap[job.callbackUrl].push(job)
+    return jobMap
+  }, {})
 
-    // Jobs dun. Remove them.
-    TwitterApiQueue.remove({
-      _id: {
-        $in: jobs.map(j => j._id)
-      }
-    })
-  }
+  // [{
+  //   callbackUrl: 'https://bm.medialist.io',
+  //   socials: [{
+  //     label: 'Twitter',
+  //     value: 'guardian'
+  //   }],
+  //   jobs: [{_id: 'xxx', ...}]
+  // }]
+  const callbackList = Object.keys(jobMap).map(callbackUrl => {
+    const jobs = jobMap[callbackUrl]
+    return {
+      callbackUrl,
+      socials: jobs.map(({twitterId, screenName}) => ({
+        label: 'Twitter',
+        value: screenName,
+        twitterId
+      })),
+      jobs: jobs
+    }
+  })
+
+  return callbackList
+}
+
+/*
+ * Grab a batch of individual look up jobs, merge them into a single twitter api
+ * request, figure out who asked for what and callback to each requester with
+ * arrays of enriched socials for all the profiles we could find.
+ */
+export const processUserLookupQueue = () => {
+  const jobs = grabUserLookupJobs()
+
+  const users = fetchUsersFromTwitter(jobs)
+
+  updateTwitterUsersCache(users)
+
+  const callbackList = createCallbackList(jobs)
+
+  // enrich with the new social info and send
+  callbackList.forEach(({callbackUrl, socials, jobs}) => {
+    // TODO: Should we send explict not found messages?
+    // This'll just respond with the subset of socials that could be enriched.
+    // Missing ones are ignored.
+    const found = findSocials(socials)
+    const sent = sendSocials({callbackUrl, socials: found})
+    const status = sent ? 'completed' : 'send-failed'
+    updateJobsStatus(status, jobs)
+  })
 }
 
 // Helper to look up enriched social profiles from basic ones

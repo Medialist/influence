@@ -179,6 +179,7 @@ describe.only('processUserLookupQueue', function () {
       assert.ok(mock.isDone(), `We posted back to deployment ${i}`)
     )
 
-    assert.equal(TwitterApiQueue.find({}).count(), 50, 'We removed completed jobs from the queue')
+    assert.equal(TwitterApiQueue.find({status: 'queued'}).count(), 50, 'We have 50 jobs left in the queue')
+    assert.equal(TwitterApiQueue.find({status: 'completed'}).count(), 100, 'We have 100 completed jobs')
   })
 })
