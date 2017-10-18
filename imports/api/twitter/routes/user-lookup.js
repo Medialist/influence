@@ -64,7 +64,7 @@ export const sendSocials = ({callbackUrl, socials}) => {
     })
   } catch (err) {
     // TODO: outbound payloads should be queued and retryed if the recipient fails to respond.
-    console.log(`Failed to post socials to ${callbackUrl}`)
+    console.log(`Failed to post socials to ${callbackUrl}`, socials.map(s => s.value))
     return false
   }
   return true
@@ -80,8 +80,8 @@ const BodySchema = Joi.object().keys({
   }).regex(/(^https:\/\/\w+.medialist.io\/.+|^http:\/\/localhost:\d+\/.+)/, {name: 'Allowed callback urls'}),
   socials: Joi.array().items(
     Joi.object().keys({
-      label: Joi.string().alphanum(),
-      value: Joi.string().alphanum()
+      label: Joi.string().alphanum().required(),
+      value: Joi.string().alphanum().required()
     }).unknown(true)
   )
 })
@@ -230,6 +230,8 @@ export const createCallbackList = (jobs) => {
  */
 export const processUserLookupQueue = () => {
   const jobs = grabUserLookupJobs()
+
+  if (jobs.length === 0) return
 
   const users = fetchUsersFromTwitter(jobs)
 

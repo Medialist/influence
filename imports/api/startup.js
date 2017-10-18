@@ -5,6 +5,7 @@ import '/imports/api/fullcontact/methods'
 import '/imports/api/twitter/methods'
 import '/imports/api/twitter/publications'
 import '/imports/api/twitter/routes'
+import '/imports/api/twitter/startup'
 
 // Map Joi errors to Meteor errors for restful routes.
 JsonRoutes.ErrorMiddleware.use(function (err, request, response, next) {

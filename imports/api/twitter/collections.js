@@ -9,9 +9,12 @@ export const TwitterLists = new Mongo.Collection('twitter_lists')
 export const TwitterApiQueue = new Mongo.Collection('twitter_api_queue')
 
 if (Meteor.isServer) {
-  TwitterUsers._ensureIndex({ name: 1, screen_name: 1, id_str: 1, _normalisedScreenName: 1 })
+  TwitterUsers._ensureIndex({ id_str: 1 })
+  TwitterUsers._ensureIndex({ _normalisedScreenName: 1 })
 
   TwitterLists._ensureIndex({ 'user.screen_name': 1, id_str: 1 })
+
+  TwitterApiQueue._ensureIndex({ status: 1, endpoint: 1 })
 }
 
 export const ScreenNameSchema = Joi.string().regex(/^[a-zA-Z0-9_]{1,20}$/, {name: 'Twitter screen name'})

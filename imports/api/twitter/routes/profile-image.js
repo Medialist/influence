@@ -1,5 +1,5 @@
 import { JsonRoutes } from 'meteor/simple:json-routes'
-import { TwitterUsers, ScreenNameSchema } from './collections'
+import { TwitterUsers, ScreenNameSchema } from '../collections'
 import Joi from 'joi-browser'
 
 // normal = 48x48px, bigger = 73x73px

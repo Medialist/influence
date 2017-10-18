@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor'
 import { resetDatabase } from 'meteor/xolvio:cleaner'
 import assert from 'assert'
 import nock from 'nock'
+import deepEqual from 'deep-equal'
 import omit from 'lodash.omit'
 import { TwitterUsers, TwitterApiQueue } from '../collections'
 
@@ -88,7 +89,7 @@ describe('handleSocialsLookup', function () {
   })
 })
 
-describe.only('processUserLookupQueue', function () {
+describe('processUserLookupQueue', function () {
   let processUserLookupQueue = null
 
   beforeEach(function () {
@@ -148,7 +149,7 @@ describe.only('processUserLookupQueue', function () {
       })
       .reply(200, twitterUsers.slice(0, maxTwitterLookups))
 
-    // expect each deploymnet to get 10 socials cos of maths. (maxtwitters / num deps)
+    // expect each deployment to get 10 socials cos of maths. (maxtwitters / num of deployments)
     const expected = Array(howManyDeployments).fill(0).map((_, i) => ({
       callbackDomain: `https://test${i}.medialist.io`,
       socials: Array(10).fill(0).map((_, j) => ({
@@ -165,11 +166,15 @@ describe.only('processUserLookupQueue', function () {
       }))
     }))
 
-    const deploymentMocks = expected.map(({callbackDomain, socials}) =>
-      nock(callbackDomain)
-        .post('/foo/bar', {socials})
+    const deploymentMocks = expected.map(({callbackDomain, socials}) => {
+      return nock(callbackDomain)
+        .post('/foo/bar', (body) => {
+          // no ordering guarantees so gotta checks em all.
+          return socials.length === body.socials.length &&
+          socials.every(s1 => body.socials.some(s2 => deepEqual(s1, s2)))
+        })
         .reply(200)
-    )
+    })
 
     processUserLookupQueue()
 

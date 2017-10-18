@@ -2,7 +2,7 @@
   "name": "influence",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --port 4000 --settings settings.json",
     "pretest": "standard | snazzy",
     "test": "TEST_CLIENT=0 meteor test --once --driver-package meteortesting:mocha --port 3030",
     "test:watch": "TEST_WATCH=1 TEST_CLIENT=0 meteor test --driver-package meteortesting:mocha --port 3030",
@@ -14,11 +14,12 @@
     "watch": "run-p watch:*",
     "watch:css": "nodemon --quiet --watch ./imports/ui --ext css --exec npm run build:css",
     "watch:svg": "nodemon --quiet --watch ./private/svgs/icons --ext svg --exec npm run build:svg",
-    "watch:server": "meteor run --settings settings.json"
+    "watch:server": "meteor run --port 4000 --settings settings.json"
   },
   "dependencies": {
     "babel-runtime": "^7.0.0-beta.0",
     "classnames": "^2.2.5",
+    "deep-equal": "^1.0.1",
     "fullcontact": "^1.0.0",
     "joi-browser": "10.6.0",
     "lodash.difference": "^4.5.0",
