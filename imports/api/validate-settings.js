@@ -16,5 +16,5 @@ export default (settings) => {
       access_token_key: Joi.string().required(),
       access_token_secret: Joi.string().required()
     }).required()
-  }).required())
+  }).required().unknown())
 }
