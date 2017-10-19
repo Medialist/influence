@@ -12,9 +12,10 @@ export const fetchTwitterUsers = new ValidatedMethod({
     returnStubValue: false
   },
 
+  // TODO: this should take an array
   validate (data) {
     Joi.assert(data, Joi.object().keys({
-      screenNames: Joi.array().items(Joi.string().required())
+      screenName: Joi.string().required()
     }).required())
   },
 
