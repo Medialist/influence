@@ -18,6 +18,8 @@ import * as TwitterApi from '../client'
   }
 */
 export const handleSocialsLookup = (socials, callbackUrl) => {
+  console.log('Handling twitter socials lookup', callbackUrl, socials.length)
+
   const found = findSocials(socials)
 
   sendSocials({callbackUrl, socials: found})

@@ -52,7 +52,7 @@ ordered-dict@1.0.9
 practicalmeteor:mocha-core@1.0.1
 promise@0.10.0-rc.14
 random@1.0.10
-react-meteor-data@0.2.13
+react-meteor-data@0.2.15
 reactive-var@1.0.11
 reload@1.1.11
 retry@1.0.9
