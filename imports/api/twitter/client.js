@@ -17,3 +17,9 @@ export const get = Meteor.wrapAsync(function (url, opts, cb) {
   })
 })
 
+export const post = Meteor.wrapAsync(function (url, opts, cb) {
+  twitterApi.post(url, opts, function (error, data, response) {
+    const err = error ? {error, data, response} : null
+    cb(err, {data, response})
+  })
+})
