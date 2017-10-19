@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run --port 4000 --settings settings.json",
+    "postinstall": "run-s build:*",
     "pretest": "standard | snazzy",
     "test": "TEST_CLIENT=0 meteor test --once --driver-package meteortesting:mocha --port 3030",
     "test:watch": "TEST_WATCH=1 TEST_CLIENT=0 meteor test --driver-package meteortesting:mocha --port 3030",
