@@ -119,9 +119,9 @@ export const updateJobsStatus = (status, jobs) => {
 /*
  * Find up to 100 jobs and set their status to `processing`
  */
-export const grabUserLookupJobs = () => {
+export const grabUserLookupJobs = ({status = 'queued'}) => {
   const jobs = TwitterApiQueue.find({
-    status: 'queued',
+    status,
     endpoint: 'users/lookup'
   }, {
     sort: {
@@ -231,9 +231,13 @@ export const createCallbackList = (jobs) => {
  * arrays of enriched socials for all the profiles we could find.
  */
 export const processUserLookupQueue = () => {
-  const jobs = grabUserLookupJobs()
+  let jobs = grabUserLookupJobs({status: 'queued'})
 
-  if (jobs.length === 0) return
+  if (jobs.length === 0) {
+    jobs = grabUserLookupJobs({status: 'queued-for-update'})
+  }
+
+  if (jobs.length === 0) return // nothing to do.
 
   const users = fetchUsersFromTwitter(jobs)
 
@@ -283,4 +287,28 @@ export const findMissingSocials = (wanted, found) => {
     screenNames: missingScreenNames || [],
     twitterIds: missingIds || []
   }
+}
+
+export const refreshAll = () => {
+  console.log('Refreshing twitter users')
+
+  // We're gonna insert a doc per twitterId, so batch it up.
+  const bulkOp = TwitterApiQueue.rawCollection().initializeUnorderedBulkOp()
+
+  // Map users to lookup jobs and insert into queue
+  TwitterUsers.find({
+    status: 200
+  }, {
+    sort: 'callbackUrlCount'
+  })
+  .forEach(({twitterId, callbackUrls}) => bulkOp.insert({
+    status: 'queued-for-update',
+    createdAt: new Date(),
+    endpoint: 'users/lookup',
+    callbackUrls, // needs to be an array
+    twitterId
+  }))
+
+  // wrap n go. Inserts the batch of docs in "1" shot.
+  Meteor.wrapAsync(bulkOp.execute, bulkOp)()
 }
