@@ -1,9 +1,4 @@
 pipeline:
-  slack:
-    image: plugins/slack
-    webhook: https://hooks.slack.com/services/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
-    channel: engineering
-
   restore-cache:
     image: drillster/drone-volume-cache
     restore: true
@@ -32,6 +27,11 @@ pipeline:
       - ./node_modules
     volumes:
       - /tmp/cache:/cache
+
+  slack:
+    image: plugins/slack
+    webhook: https://hooks.slack.com/services/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
+    channel: engineering
 
 services:
   mongo:
